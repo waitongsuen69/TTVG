@@ -7,7 +7,7 @@ app = Flask(__name__)
 def prompt():
     data = 'wrong mess'
     if request.method == 'POST':
-        data =  request.args.get('language')
+        data =  request.args.get('value')
         return {"value":data}
     else :
         return {"value":data}
