@@ -2,6 +2,7 @@ from flask import Flask, request, send_file
 # import openai
 from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
 import torch
+import os
 
 model_id = "stabilityai/stable-diffusion-2-1"
 
@@ -25,13 +26,14 @@ def user_input():
     pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
     pipe = pipe.to("cuda")
 
-    prompt = data
+    prompt = data #set prompt to user input
     image = pipe(prompt).images[0]
-        
-    image.save("astronaut_rides_horse.png")
-
-    return {"value":"SERVER get input: "+ data}
-
+    image_path = 'result_image/{data[:10]}~.png'
+    image.save(f'{image_path}')
+    
+    # return {"value":"SERVER get input: "+ data}
+    return send_file(image_path, mimetype='image/png')
+    
 if __name__ == "__main__":
     app.run(debug=True )
 
