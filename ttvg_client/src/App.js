@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 
 function App() {
   const [data, setData] = useState("");
-  const [result, setResult] = useState("");
+
 
   // const handleIMGClick = (event) => {
   //   fetch("/output_image",{
@@ -20,11 +20,12 @@ function App() {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(data) // return data from server in json type back to string
-    }).then(response => response.json())
+    }).then(response => response.blob())
     .then(result => {
-      //setvar to result from server
-      setResult({value: result.value})
-      console.log(result);
+      //create element of image
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(result);
+      document.body.appendChild(img);
     })
     .catch(error => {
       // handle error
@@ -57,7 +58,7 @@ function App() {
         Submit
       </Button>
 
-      {typeof data === "undefined" ? <p>Loading...</p> : <p>{result.value}</p>}
+      {typeof data === "undefined" ? <p>Loading...</p> : <p>Done!</p>}
       
     </div>
   );
