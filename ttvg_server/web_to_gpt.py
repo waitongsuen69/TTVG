@@ -1,7 +1,7 @@
 from flask import Flask, request, send_file
 import openai
 
-openai.api_key = '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'
+openai.api_key = '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'
 
 # api key 
 #       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
@@ -13,12 +13,6 @@ messages = [ {
     "role": "system", 
     "content": "You are a good assistant but not a human kind."
     } ]
-
-
-@app.route("/user_intput", methods=['POST'])
-def user_input():
-    data =  request.json
-    return {"value":"SERVER get input: "+ data}
 
 if __name__ == "__main__":
     # app.run(debug=True )
