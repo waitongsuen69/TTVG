@@ -7,16 +7,22 @@ function App() {
   const [data, setData] = useState("");
   const [result, setResult] = useState("");
 
+  // const handleIMGClick = (event) => {
+  //   fetch("/output_image",{
+  //     method: 'GET',
+      
+  //   })
+  // };
+
+  // when click, send `data` to server/user_input and get output, then write output to `result`
   const handleClick = (event) => {
-    fetch("/prompt", {
+    fetch("/user_intput",{
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data) // data can be any object or array
-    })
-    .then(response => response.json()) // parse JSON from request
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data) // return data from server in json type back to string
+    }).then(response => response.json())
     .then(result => {
+      //setvar to result from server
       setResult({value: result.value})
       console.log(result);
     })
@@ -24,14 +30,6 @@ function App() {
       // handle error
       console.error(error);
     });
-
-    // fetch("/prompt",{
-    //   method: "GET",
-    //   headers: { 'Content-Type': 'application/json' }
-    // }).then(response => response.json())
-    // .then(result => setData({ value: result.value }))
-
-    console.log(data);
   };
 
   const handleChange = (event) => {
@@ -60,8 +58,36 @@ function App() {
       </Button>
 
       {typeof data === "undefined" ? <p>Loading...</p> : <p>{result.value}</p>}
+      
     </div>
   );
 }
 
 export default App;
+
+
+
+// const handleClick = (event) => {
+//   fetch("/prompt", {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(data) // data can be any object or array
+//   })
+//   .then(response => response.json()) // parse JSON from request
+//   .then(result => {
+//     setResult({value: result.value})
+//     console.log(result);
+//   })
+//   .catch(error => {
+//     // handle error
+//     console.error(error);
+//   });
+
+//   fetch("/prompt",{
+//     method: "GET",
+//     headers: { 'Content-Type': 'application/json' }
+//   }).then(response => response.json())
+//   .then(result => setData({ value: result.value }))
+// };
