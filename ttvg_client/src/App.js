@@ -15,7 +15,7 @@ function App() {
   // };
 
   // when click, send `data` to server/user_input and get output, then write output to `result`
-  const handleClick = (event) => {
+  function handleClick (event){
     fetch("/user_intput",{
       method: 'POST',
       headers: {'Content-Type':'application/json'},
