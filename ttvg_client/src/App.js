@@ -43,7 +43,7 @@ function App() {
         id="standard-basic"
         label="Type your prompt to generate"
         value={data.value}
-        onChange={handleChange}
+        onChange={(e) => setData(e.target.value) }
         //handle click enter to generate
         onKeyDown={(ev) => {
           if (ev.key === "Enter") {

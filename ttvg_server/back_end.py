@@ -16,19 +16,21 @@ data = ""
 #     "content": "You are a good assistant but not a human kind."
 #     } ]
 
+image_count = 1
 
 @app.route("/user_intput", methods=['POST'])
+
 def user_input():
 # diffuser
     data =  request.json
-    
+    global image_count
     pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
     pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
     pipe = pipe.to("cuda")
 
     prompt = data #set prompt to user input
     image = pipe(prompt).images[0]
-    image_path = 'result_image/{data[:10]}~.png'
+    image_path = 'result_image/{image_count}.png'
     image.save(f'{image_path}')
     
     # return {"value":"SERVER get input: "+ data}
