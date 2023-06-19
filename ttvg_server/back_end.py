@@ -1,8 +1,12 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, jsonify
 # import openai
 from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
 import torch
 import os
+#for image transfer
+import io
+import base64
+
 
 model_id = "stabilityai/stable-diffusion-2-1"
 
@@ -16,25 +20,26 @@ data = ""
 #     "content": "You are a good assistant but not a human kind."
 #     } ]
 
-image_count = 1
 
 @app.route("/user_intput", methods=['POST'])
-
 def user_input():
 # diffuser
     data =  request.json
-    global image_count
+    
     pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
     pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
     pipe = pipe.to("cuda")
 
-    prompt = data #set prompt to user input
+    prompt = data #set prompt to user input # add gpt here
+
     image = pipe(prompt).images[0]
-    image_path = 'result_image/{image_count}.png'
-    image.save(f'{image_path}')
-    
+    # image to bytes64 encoding and save to result_collection
+    image_bytes = io.BytesIO()
+    image.save(image_bytes, format='PNG')
+    image_bytes = image_bytes.getvalue()
+    image_base64 = base64.b64encode(image_bytes).decode('utf-8')
     # return {"value":"SERVER get input: "+ data}
-    return send_file(image_path, mimetype='image/png')
+    return jsonify({'prompt': prompt, 'image': image_base64})
     
 if __name__ == "__main__":
     app.run(debug=True )

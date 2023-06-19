@@ -20,11 +20,11 @@ function App() {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(data) // return data from server in json type back to string
-    }).then(response => response.blob())
+    }).then(response => response.json())
     .then(result => {
       //create element of image
       const img = document.createElement('img');
-      img.src = URL.createObjectURL(result);
+      img.src = 'data:image/png;base64,' + result.image;
       document.body.appendChild(img);
     })
     .catch(error => {
@@ -43,7 +43,8 @@ function App() {
         id="standard-basic"
         label="Type your prompt to generate"
         value={data.value}
-        onChange={(e) => setData(e.target.value) }
+        onChange={handleChange}
+        
         //handle click enter to generate
         onKeyDown={(ev) => {
           if (ev.key === "Enter") {
