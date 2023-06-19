@@ -54,7 +54,7 @@ function App() {
       <Button variant="contained" color="primary" onClick={handleGenerate}>
         Submit
       </Button>
-       {generateLoad ? (<p>loading ...</p>):(<p>Nothing loading ...</p>)}
+       {generateLoad ? (<p className="fullscreen">loading ...</p>):(<p>Nothing loading ...</p>)}
       
     </div>
   );
