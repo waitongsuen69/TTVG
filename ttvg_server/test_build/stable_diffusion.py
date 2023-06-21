@@ -1,20 +1,16 @@
-from flask import Flask, request, send_file
+from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
+import torch
+import os
+#for image transfer
 
-app = Flask(__name__)
 
-@app.route("/prompt", methods=['GET', 'POST'])
-def prompt():
-    data = 'wrong mess'
-    if request.method == 'POST':
-        data =  request.json
-        print(data)
-        return {"value":data}
-    else :
-        return {"value":data}
+model_id = "stabilityai/stable-diffusion-2-1"
 
-@app.route("/output_image",methods=['GET'])
-def output_image():
-    return send_file('cat.jpg', mimetype='image/jpeg')
-
-if __name__ == "__main__":
-    app.run(debug=True )
+pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
+pipe = pipe.to("cuda")
+for i in range(10):
+    image = pipe("a cat with blue eye").images[0]
+    name = "test/"+str(i)+".png"
+    image.save(name)
+    
