@@ -4,19 +4,25 @@
   "private": true,
   "proxy": "http://127.0.0.1:5000/",
   "dependencies": {
-    "@emotion/react": "^11.11.0",
+    "@emotion/react": "^11.11.1",
     "@material-ui/core": "^4.12.4",
-    "@mui/material": "^5.13.4",
+    "@mui/material": "^5.13.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "concurrently": "^8.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts --openssl-legacy-provider start",
+    "start": "concurrently \"npm run front_end\" \"npm run back_end\" ",
+    "front_end": "npx kill-port 3000 && react-scripts --openssl-legacy-provider start",
+    "back_end": "cd ../ttvg_server &&  cd env/Scripts && activate.bat && cd ../.. && python back_end_fake.py",
+    "installs": "npm run front_install && npm run back_install" ,
+    "front_install":"npm install ",
+    "back_install":"cd ../ttvg_server &&  cd env/Scripts && activate.bat && cd ../.. && pip install -r requirement_fake.txt",
     "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
