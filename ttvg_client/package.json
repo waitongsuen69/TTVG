@@ -20,6 +20,9 @@
     "start": "concurrently \"npm run front_end\" \"npm run back_end\" ",
     "front_end": "npx kill-port 3000 && react-scripts --openssl-legacy-provider start",
     "back_end": "cd ../ttvg_server &&  cd env/Scripts && activate.bat && cd ../.. && python back_end_fake.py",
+    "installs": "npm run front_install && npm run back_install" ,
+    "front_install":"npm install ",
+    "back_install":"cd ../ttvg_server &&  cd env/Scripts && activate.bat && cd ../.. && pip install -r requirement_fake.txt",
     "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
