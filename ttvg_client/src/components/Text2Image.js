@@ -49,7 +49,6 @@ function Text2Image(){
             }
           }}
         />
-  
         {/* handle click button to generate */}
         <Button variant="contained" color="primary" onClick={handleGenerate}>
           Submit
