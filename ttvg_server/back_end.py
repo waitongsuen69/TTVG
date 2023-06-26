@@ -16,7 +16,7 @@ data = ""
 #openai api
 # openai.api_key = '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'
 # messages = [ {
-#     "role": "system", 
+#     "role": "system",
 #     "content": "You are a good assistant but not a human kind."
 #     } ]
 
@@ -25,7 +25,7 @@ data = ""
 def user_input():
 # diffuser
     data =  request.json
-    
+
     pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
     pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
     pipe = pipe.to("cuda")
@@ -40,7 +40,7 @@ def user_input():
     image_base64 = base64.b64encode(image_bytes).decode('utf-8')
     # return {"value":"SERVER get input: "+ data}
     return jsonify({'prompt': prompt, 'image': image_base64})
-    
+
 if __name__ == "__main__":
     app.run(debug=True )
 
